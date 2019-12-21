@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "19197109771",
+    "firebase_url": "https://project-kidcourse.firebaseio.com",
+    "project_id": "project-kidcourse",
+    "storage_bucket": "project-kidcourse.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:19197109771:android:18aa08919b58c4054e090e",
+        "android_client_info": {
+          "package_name": "com.example.kidcourseapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "19197109771-iunnfumafa4odp0gqsf500nh7g4nc03m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBTtXW4f7xypVsKmOgpQUggb4QnDNlhtOo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "19197109771-iunnfumafa4odp0gqsf500nh7g4nc03m.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ParentMainActivity">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:orientation="vertical"
+            android:background="#FFFFFF">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:orientation="vertical"
+                android:background="@color/colorPrimary">
+
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="우리 어린이집"
+                    android:textStyle="bold"
+                    android:textSize="24sp"
+                    android:textColor="#FFFFFF"/>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="등원 상태"
+                android:textStyle="bold"
+                android:textSize="24sp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="500dp"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/button"
+                android:layout_width="64dp"
+                android:layout_height="wrap_content"
+                android:text="추가"
+                android:visibility="visible" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:background="#FFAB91"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/car_teacher_phone"
+                android:layout_width="170dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:drawableStart="@drawable/ic_phone_black_24dp"
+                android:drawableLeft="@drawable/ic_phone_black_24dp"
+                android:padding="10dp"
+                android:text=" 차량 담당 교사"
+                android:textColor="#ffffff" />
+
+            <EditText
+                android:id="@+id/kid_house_phone"
+                android:layout_width="170dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:drawableStart="@drawable/ic_phone_black_24dp"
+                android:drawableLeft="@drawable/ic_phone_black_24dp"
+                android:padding="10dp"
+                android:text=" 우리 어린이집"
+                android:textColor="#ffffff" />
+
+        </LinearLayout>
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyBsOcbJpC3T0hNLWRYLi7gNnHb1nTTJIF4" />
+
+    </LinearLayout>
+</android.support.constraint.ConstraintLayout>
