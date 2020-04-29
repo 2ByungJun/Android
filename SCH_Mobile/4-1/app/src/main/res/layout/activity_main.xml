@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="20px">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="20154010 이병준"
+            android:textStyle="bold"
+            android:textSize="45dp"
+            ></TextView>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:text="4-2 실습"
+            android:background="#111111"
+            android:textColor="#ffffff"
+            ></Button>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="5dp"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/edit1"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:shadowColor="#111111">
+            </EditText>
+
+            <EditText
+                android:id="@+id/edit2"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content">
+            </EditText>
+
+            <Button
+                android:id="@+id/add"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="더하기"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                android:layout_marginTop="20dp"
+                android:onClick="btnAdd"
+                ></Button>
+            <Button
+                android:id="@+id/sub"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="빼기"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                android:onClick="btnSub"
+                ></Button>
+            <Button
+                android:id="@+id/mul"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="곱하기"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                android:onClick="btnMul"
+                ></Button>
+            <Button
+                android:id="@+id/div"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="나누기"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                android:onClick="btnDiv"
+                ></Button>
+            <Button
+                android:id="@+id/rest"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="나머지 값"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                android:onClick="btnRest"
+                ></Button>
+
+            <TextView
+                android:id="@+id/result"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textColor="#FF3333"
+                android:textSize="30dp"
+                ></TextView>
+
+        </LinearLayout>
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
