@@ -1,4 +1,4 @@
-### 2020.04.29 수정
+### 2020.05.02 수정
 
 ### Android
 
@@ -6,6 +6,7 @@
     
     - 안드로이드 학습
     - Kid Makes Course project
+    - SCH 모바일 프로그래밍
 
 2. 사용 언어
 
@@ -13,9 +14,10 @@
 
 3. 프로젝트
 
-> Kid Makes Course project
+> Kid Makes Course project(Android -> Flutter)
     
     - 어린이집 등하원 코스 편집기
+    - 업데이트 종료
 
    <선생님>은 
    1. 학부모의 전화를 받을 수 없더라도 app을 이용하여 경로를 바로 확인할 수 있습니다.
@@ -29,5 +31,7 @@
 
 > SCH_Mobile_calculator 
 
-    - 심플한 계산기를 만들어보았다.
+    - Chapter4 ex 4_26 ~ 4_28
+    - Direct 4_4
+    - Project 4_1, 4_2
 

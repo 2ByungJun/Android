@@ -1,0 +1,2 @@
+rootProject.name='direct_4_4'
+include ':app'
