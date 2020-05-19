@@ -47,3 +47,5 @@
     - Chapter6 ex 6_1 ~ 6_5
     - Direct 6_1
     [ 2020.05.19]
+    - Chapter ex 6_6 ~ 6_15
+    - Direct 6_2
