@@ -52,5 +52,6 @@
     [ 2020.05.21]
     - Chapter ex 6_16 ~ 18
     - Direct 6_3
-    - [ 2020.05.22]
-    - Chapter ex 6_22 ~ 28 
+    - [ 2020.05.28]
+    - Chapter ex 6_22 ~ 28
+    - Chapter ex 7_1 ~ 5 (Project7-1)
