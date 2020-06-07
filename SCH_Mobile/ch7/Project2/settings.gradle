@@ -1,0 +1,2 @@
+rootProject.name='ch7_Project2'
+include ':app'
