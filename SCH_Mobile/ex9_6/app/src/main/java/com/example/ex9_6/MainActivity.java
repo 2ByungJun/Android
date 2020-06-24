@@ -1,0 +1,59 @@
+package com.example.ex9_6;
+
+import androidx.appcompat.app.AppCompatActivity;
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.BlurMaskFilter;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.os.Bundle;
+import android.view.View;
+
+public class MainActivity extends AppCompatActivity {
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(new MyGraphicView(this));
+        setTitle("20154010 이병준 예제9-8");
+    }
+
+    private static class MyGraphicView extends View {
+        public MyGraphicView(Context context) {
+            super(context);
+        }
+
+        @Override
+        protected void onDraw(Canvas canvas) {
+            super.onDraw(canvas);
+            Bitmap picture = BitmapFactory.decodeResource(getResources(),
+                    R.drawable.dog);
+
+            int picX = (this.getWidth() - picture.getWidth()) / 2;
+            int picY = (this.getHeight() - picture.getHeight()) / 2;
+
+            Paint paint = new Paint();
+            BlurMaskFilter bMask;
+
+//            bMask = new BlurMaskFilter(30, BlurMaskFilter.Blur.NORMAL);
+//            paint.setMaskFilter(bMask);
+//            canvas.drawBitmap(picture, picX, picY, paint);
+
+            // bMask = new BlurMaskFilter(30, BlurMaskFilter.Blur.INNER);
+            // paint.setMaskFilter(bMask);
+            // canvas.drawBitmap(picture, picX, picY, paint);
+            // picture.recycle();
+            //
+//             bMask = new BlurMaskFilter(30, BlurMaskFilter.Blur.OUTER);
+//             paint.setMaskFilter(bMask);
+//             canvas.drawBitmap(picture, picX, picY, paint);
+//             picture.recycle();
+
+             bMask = new BlurMaskFilter (30, BlurMaskFilter.Blur.SOLID);
+             paint.setMaskFilter(bMask);
+             canvas.drawBitmap(picture, picX, picY, paint);
+             picture.recycle();
+        }
+    }
+}
