@@ -1,4 +1,4 @@
-### 2020.06.24 수정
+### 2020.06.25 수정
 
 ### Android
 
@@ -62,3 +62,6 @@
     - Chapter 9 ex 1, project9-1
     [ 2020.06.24]
     - Chapter 9-9 까지
+
+    [ 2020.06.25]
+    - SCH_Mobile_calculator term-project
