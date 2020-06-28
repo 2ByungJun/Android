@@ -2,180 +2,391 @@ package com.example.calculator;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ScrollView;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.text.DecimalFormat;
 
+/*****************************************************************
+ * 20154010 이병준 계산기 프로젝트
+ *****************************************************************/
 public class MainActivity extends AppCompatActivity {
 
-    boolean isFirstInput = true; // 입력 값이 처음 입력되는가 체크
+    /***** First Check *****/
+    boolean isFirstInput = true;
 
-    ScrollView scrollView;
-    TextView resultOperatorTextView;
-    TextView resultTextView;
+    /***** Declaring Variable *****/
+    Button btnAllClear, btnClear, btnBack;  // AC, C, BK
 
-    ImageButton[] operatorButton = new ImageButton[8];
-    ImageButton allClearButton, clearEntryButton , backSpaceButton;
+    /***** Text Variable*****/
+    EditText tvProcessor;
+    TextView tvResult;
+    String processor;       // 수식 저장
+    String resultProcessor; // 결과 수식 저장
+    String lastProcessor;   // 수식 마지막 값
 
-    Button[] numberButton = new Button[10];
-    Button numberButtonSpot;
+    /***** Number Variable ******/
+    Button[] btn_num = new Button[10];  // 0 - 9
 
-    Calculator calculator = new Calculator(new DecimalFormat("###,###.##########"));
+    /***** Operator Variable  *****/
+    Button btnMultiply, btnMinus, btnPlus, btnDivide, btnPercentage; // *, -, +, /, %
+    Button btnDecimal; // .
+
+    /***** Bit Variable *****/
+    Button btnBitAND, btnBitOR, btnBitXOR, btnBitNOT; // &, |, ^, ~
+
+    /***** Small Bracket Variable *****/
+    Button btnSmallBracketLeft, btnSmallBracketRight; // (, )
+    int isSmallBracketLeftCheck = 0; // ( 괄호 수 체크
+
+    /***** Equal Variable *****/
+    Button btnEqual;   // =
+    Calculation calculation = new Calculation();
+
+    /***** History *****/
+    Button btnHistory;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        setTitle("20154010 이병준 계산기");
 
-        scrollView = findViewById(R.id.scroll_view);
-        resultOperatorTextView = findViewById(R.id.result_operator_text_view);
-        resultTextView = findViewById(R.id.result_text_view);
-
-        allClearButton = findViewById(R.id.all_clear_button);
-        clearEntryButton = findViewById(R.id.clear_entry_button);
-        backSpaceButton = findViewById(R.id.back_space_button);
-
-        for(int i=0; i<numberButton.length; i++){
-            numberButton[i] = findViewById(R.id.number_button_0 + i);
+        /***** Assigning Variable *****/
+        btnAllClear = (Button) findViewById(R.id.btn_all_clear);
+        btnClear = (Button) findViewById(R.id.btn_delete);
+        btnBack = (Button) findViewById(R.id.btn_back);
+        tvProcessor = (EditText) findViewById(R.id.tv_process);
+        tvResult = (TextView) findViewById(R.id.tv_result);
+        for (int i = 0; i < btn_num.length; i++) {
+            btn_num[i] = findViewById(R.id.btn_0 + i);
         }
+        btnMultiply = (Button) findViewById(R.id.btn_multiply);
+        btnMinus = (Button) findViewById(R.id.btn_minus);
+        btnPlus = (Button) findViewById(R.id.btn_plus);
+        btnDivide = (Button) findViewById(R.id.btn_divide);
+        btnPercentage = (Button) findViewById(R.id.btn_percentage);
+        btnDecimal = (Button) findViewById(R.id.btn_dot);
+        btnSmallBracketLeft = (Button) findViewById(R.id.btn_small_bracket_left);
+        btnSmallBracketRight = (Button) findViewById(R.id.btn_small_bracket_right);
+        btnEqual = (Button) findViewById(R.id.btn_equal);
+        btnBitAND = (Button) findViewById(R.id.btn_bit_and);
+        btnBitOR = (Button) findViewById(R.id.btn_bit_or);
+        btnBitXOR = (Button) findViewById(R.id.btn_bit_xor);
+        btnBitNOT = (Button) findViewById(R.id.btn_bit_not);
+        btnHistory = (Button) findViewById(R.id.btn_history);
 
-        for(int i=0; i<operatorButton.length; i++){
-            operatorButton[i] = findViewById(R.id.operator_button_0 + i);
-        }
 
-        numberButtonSpot = findViewById(R.id.number_button_spot);
+        /***** Initialization Variable *****/
+        tvProcessor.setText("");
+        tvResult.setText("");
 
-        for(Button button : numberButton){
+        /*****************************************************************
+        * History Buttons on-Click
+        *****************************************************************/
+        btnHistory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), History.class);
+                startActivity(intent);
+            }
+        });
+
+        /*****************************************************************
+         * Clear Buttons on-Click
+         *****************************************************************/
+        btnAllClear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tvProcessor.setText("");
+                tvResult.setText("");
+                isFirstInput = true;
+                isSmallBracketLeftCheck = 0;
+                lastProcessor = "";
+                resultProcessor = "";
+            }
+        });
+        btnClear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tvProcessor.setText("");
+                isFirstInput = true;
+                isSmallBracketLeftCheck = 0;
+            }
+        });
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                processor = tvProcessor.getText().toString();
+                if (tvProcessor.getText().toString() == "") {
+                    Toast.makeText(getApplicationContext(), "수식이 없습니다.", Toast.LENGTH_SHORT).show();
+                } else {
+                    if (processor.length() > 0) {
+                        lastProcessor = processor.substring(processor.length() - 1);
+                        switch (lastProcessor) {
+                            case "(":
+                                isSmallBracketLeftCheck--;
+                                processor = processor.substring(0, processor.length() - 1);
+                                tvProcessor.setText(processor);
+                                break;
+                            case ")":
+                                isSmallBracketLeftCheck++;
+                                processor = processor.substring(0, processor.length() - 1);
+                                tvProcessor.setText(processor);
+                                break;
+                            default:
+                                processor = processor.substring(0, processor.length() - 1);
+                                tvProcessor.setText(processor);
+                                break;
+                        }
+
+
+                    }
+                }
+            }
+        });
+
+        /*****************************************************************
+         * Number Buttons on-Click
+         *****************************************************************/
+        for (final Button button : btn_num) {
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    numberButtonClick(v);
+                    processor = tvProcessor.getText().toString();
+                    tvProcessor.setText(processor + v.getTag().toString());
+                    isFirstInput = false;
                 }
             });
         }
 
-        for(ImageButton imageButton : operatorButton){
-            imageButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    operatorButtonClick(v);
+        /*****************************************************************
+         * Operator Buttons on-Click
+         *****************************************************************/
+        btnPlus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isFirstInput) {
+                    Toast.makeText(getApplicationContext(), "연산할 값을 앞에 명시하세요", Toast.LENGTH_SHORT).show();
+                } else {
+                    if (lastProcessorNumCheck(tvProcessor.getText().toString())) {
+                        processor = tvProcessor.getText().toString();
+                        tvProcessor.setText(processor + " + ");
+                    } else {
+                        Toast.makeText(getApplicationContext(), "연산할 값을 앞에 명시하세요", Toast.LENGTH_SHORT).show();
+                    }
                 }
-            });
-        }
-
-        allClearButton.setOnClickListener(new View.OnClickListener() {
+            }
+        });
+        btnMinus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                allClearButtonClick(v);
+                if (isFirstInput) {
+                    Toast.makeText(getApplicationContext(), "연산할 값을 앞에 명시하세요", Toast.LENGTH_SHORT).show();
+                } else {
+                    if (lastProcessorNumCheck(tvProcessor.getText().toString())) {
+                        processor = tvProcessor.getText().toString();
+                        tvProcessor.setText(processor + " - ");
+                    } else {
+                        Toast.makeText(getApplicationContext(), "연산할 값을 앞에 명시하세요", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+        });
+        btnMultiply.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isFirstInput) {
+                    Toast.makeText(getApplicationContext(), "연산할 값을 앞에 명시하세요", Toast.LENGTH_SHORT).show();
+                } else {
+                    if (lastProcessorNumCheck(tvProcessor.getText().toString())) {
+                        processor = tvProcessor.getText().toString();
+                        tvProcessor.setText(processor + " * ");
+                    } else {
+                        Toast.makeText(getApplicationContext(), "연산할 값을 앞에 명시하세요", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+        });
+        btnDivide.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isFirstInput) {
+                    Toast.makeText(getApplicationContext(), "연산할 값을 앞에 명시하세요", Toast.LENGTH_SHORT).show();
+                } else {
+                    if (lastProcessorNumCheck(tvProcessor.getText().toString())) {
+                        processor = tvProcessor.getText().toString();
+                        tvProcessor.setText(processor + " / ");
+                    } else {
+                        Toast.makeText(getApplicationContext(), "연산할 값을 앞에 명시하세요", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+        });
+        btnPercentage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isFirstInput) {
+                    Toast.makeText(getApplicationContext(), "연산할 값을 앞에 명시하세요", Toast.LENGTH_SHORT).show();
+                } else {
+                    if (lastProcessorNumCheck(tvProcessor.getText().toString())) {
+                        processor = tvProcessor.getText().toString();
+                        tvProcessor.setText(processor + " % ");
+                    } else {
+                        Toast.makeText(getApplicationContext(), "연산할 값을 앞에 명시하세요", Toast.LENGTH_SHORT).show();
+                    }
+                }
             }
         });
 
-        clearEntryButton.setOnClickListener(new View.OnClickListener() {
+        /*****************************************************************
+         * Decimal Buttons on-Click
+         *****************************************************************/
+        btnDecimal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                clearEntryButtonClick(v);
+                if (isFirstInput) {
+                    processor = tvProcessor.getText().toString();
+                    tvProcessor.setText("0.");
+                    isFirstInput = false;
+                } else {
+                    if (lastProcessorNumCheck(tvProcessor.getText().toString())) {
+                        processor = tvProcessor.getText().toString();
+                        tvProcessor.setText(processor + ".");
+                    } else {
+                        processor = tvProcessor.getText().toString();
+                        tvProcessor.setText(processor + "0.");
+                    }
+                }
             }
         });
 
-        backSpaceButton.setOnClickListener(new View.OnClickListener() {
+        /*****************************************************************
+         * SmallBracket Buttons on-Click
+         *****************************************************************/
+        btnSmallBracketLeft.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                backSpaceButtonClick(v);
+                processor = tvProcessor.getText().toString();
+                tvProcessor.setText(processor + "( ");
+                isSmallBracketLeftCheck++;
+                isFirstInput = false;
+            }
+        });
+        btnSmallBracketRight.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isFirstInput) {
+                    Toast.makeText(getApplicationContext(), "선행 괄호를 명시하세요", Toast.LENGTH_SHORT).show();
+                } else {
+                    if (isSmallBracketLeftCheck > 0) {
+                        processor = tvProcessor.getText().toString();
+                        tvProcessor.setText(processor + " )");
+                        isSmallBracketLeftCheck--;
+                    } else {
+                        Toast.makeText(getApplicationContext(), "선행 괄호를 명시하세요", Toast.LENGTH_SHORT).show();
+                    }
+                }
             }
         });
 
-        numberButtonSpot.setOnClickListener(new View.OnClickListener() {
+        /*****************************************************************
+         * Bit Buttons on-Click
+         *****************************************************************/
+        btnBitAND.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                numberButtonSpotClick(v);
+                if (isFirstInput) {
+                    Toast.makeText(getApplicationContext(), "연산할 값을 앞에 명시하세요", Toast.LENGTH_SHORT).show();
+                } else {
+                    if (lastProcessorNumCheck(tvProcessor.getText().toString())) {
+                        processor = tvProcessor.getText().toString();
+                        tvProcessor.setText(processor + " & ");
+                    } else {
+                        Toast.makeText(getApplicationContext(), "연산할 값을 앞에 명시하세요", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+        });
+        btnBitOR.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isFirstInput) {
+                    Toast.makeText(getApplicationContext(), "연산할 값을 앞에 명시하세요", Toast.LENGTH_SHORT).show();
+                } else {
+                    if (lastProcessorNumCheck(tvProcessor.getText().toString())) {
+                        processor = tvProcessor.getText().toString();
+                        tvProcessor.setText(processor + " | ");
+                    } else {
+                        Toast.makeText(getApplicationContext(), "연산할 값을 앞에 명시하세요", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+        });
+        btnBitXOR.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isFirstInput) {
+                    Toast.makeText(getApplicationContext(), "연산할 값을 앞에 명시하세요", Toast.LENGTH_SHORT).show();
+                } else {
+                    if (lastProcessorNumCheck(tvProcessor.getText().toString())) {
+                        processor = tvProcessor.getText().toString();
+                        tvProcessor.setText(processor + " ^ ");
+                    } else {
+                        Toast.makeText(getApplicationContext(), "연산할 값을 앞에 명시하세요", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+        });
+        btnBitNOT.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isFirstInput) {
+                    processor = tvProcessor.getText().toString();
+                    tvProcessor.setText(processor + " ~ ");
+                } else {
+                    // 숫자일 경우
+                    if (lastProcessorNumCheck(tvProcessor.getText().toString())) {
+                        Toast.makeText(getApplicationContext(), "연산이 없습니다.", Toast.LENGTH_SHORT).show();
+                    } else { // 연산일 경우
+                        processor = tvProcessor.getText().toString();
+                        tvProcessor.setText(processor + " ~ ");
+                    }
+                }
+            }
+        });
+
+        /*****************************************************************
+         * Equal Buttons on-Click
+         *****************************************************************/
+        btnEqual.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // 괄호 개수 일치 판단
+                if (isSmallBracketLeftCheck == 0) {
+                    resultProcessor = calculation.calPostfix(tvProcessor.getText().toString());
+                    tvResult.setText(resultProcessor);
+                } else { // 괄호 에러
+                    Toast.makeText(getApplicationContext(), "error : (, )", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
 
-    // 소수점(.)
-    private void numberButtonSpotClick(View v) {
-        if(isFirstInput){
-            // 처음 눌릴 경우
-            resultTextView.setTextColor(0xFF000000);
-            resultTextView.setText("0.");
-            isFirstInput = false;
-        }else {
-            // . 이 존재할 경우
-            if(resultTextView.getText().toString().contains(".")){
-                Toast.makeText(getApplicationContext(), "이미 소숫점이 존재합니다.", Toast.LENGTH_SHORT).show();
-            } else {
-                resultTextView.append(".");
-            }
+    private boolean lastProcessorNumCheck(String str) {
+        switch (str.substring(str.length() - 1)) {
+            case " ":
+                return false;
+            default:
+                return true;
         }
     }
-
-    // 백스페이스
-    private void backSpaceButtonClick(View v) {
-        // 초기에 백스페이스를 누를 경우의 예외 처리
-        if (isFirstInput && !calculator.getOperatorString().equals("")) {
-            Toast.makeText(getApplicationContext(), "결과값은 지울 수 없습니다.", Toast.LENGTH_SHORT).show();
-        } else {
-            if(resultTextView.getText().toString().length() > 1){
-                String getResultString = resultTextView.getText().toString().replace(",","");
-                String subString = getResultString.substring(0, getResultString.length()-1); // 총 길이에서 한 글자를 뺌
-                String decimalString = calculator.getDecimalString(subString);
-                resultTextView.setText(decimalString);
-            }else {
-                clearText();
-            }
-        }
-    }
-
-    // 부분 초기화
-    private void clearEntryButtonClick(View v) {
-        clearText();
-    }
-
-    // 전체 초기화
-    private void allClearButtonClick(View v) {
-        calculator.setAllClear();
-        resultOperatorTextView.setText(calculator.getOperatorString());
-        clearText();
-    }
-
-    // 연산 버튼
-    private void operatorButtonClick(View v) {
-        String getResultString = resultTextView.getText().toString();
-        String operator = v.getTag().toString();
-        String getResult = calculator.getResult(isFirstInput, getResultString, operator);
-        resultTextView.setText(getResult);
-        resultOperatorTextView.setText(calculator.getOperatorString());
-        isFirstInput = true; // 다음 수를 입력받아야하기 때문에.
-    }
-
-    // 숫자 버튼
-    private void numberButtonClick(View v) {
-        if(isFirstInput){
-            resultTextView.setTextColor(0xFF000000);
-            resultTextView.setText(v.getTag().toString());
-            isFirstInput = false;
-        } else {
-            String getResultText = resultTextView.getText().toString().replace(",","");
-            getResultText = getResultText + v.getTag().toString(); // 12,0005 => 1,200,005
-            String getDecimalString = calculator.getDecimalString(getResultText);
-            resultTextView.setText(getDecimalString);
-        }
-
-    }
-
-    // 텍스트 초기화
-    private void clearText() {
-        isFirstInput = true;
-        resultTextView.setTextColor(0xFF666666);
-        resultTextView.setText(calculator.getclearInputText()); // "0"
-    }
-
-
 }

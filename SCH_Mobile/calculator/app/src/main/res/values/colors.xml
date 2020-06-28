@@ -3,4 +3,10 @@
     <color name="colorPrimary">#6200EE</color>
     <color name="colorPrimaryDark">#3700B3</color>
     <color name="colorAccent">#03DAC5</color>
+
+    <!--추가한 color 값-->
+    <color name="colorFuncBtnBackground">#cccccc</color>
+    <color name="colorFuncBtnText">#00796b</color>
+    <color name="colorBtnBackground">#dddddd</color>
+    <color name="colorNumBtnText">#333333</color>
 </resources>
