@@ -26,12 +26,12 @@
             />
 
         <Button
-            android:id="@+id/btn_game"
+            android:id="@+id/btn_read"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:layout_marginLeft="2dp"
-            android:text="Game"
+            android:text="FILE READ"
             android:textStyle="bold"
             android:textColor="@color/colorFuncBtnText"
             android:background="@color/colorFuncBtnBackground"

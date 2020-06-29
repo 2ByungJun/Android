@@ -1,4 +1,4 @@
-### 2020.06.25 수정
+### 2020.06.29 수정
 
 ### Android
 
@@ -65,3 +65,5 @@
 
     [ 2020.06.25]
     - SCH_Mobile_calculator term-project
+    [ 2020.06.26]
+    - SCH_Mobile_calculator history

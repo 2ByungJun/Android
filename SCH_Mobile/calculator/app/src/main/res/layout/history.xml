@@ -1,15 +1,97 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:gravity="center">
+    android:orientation="vertical">
 
-
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Hello"
-        android:textSize="20dp"/>
+        android:orientation="horizontal"
+        android:padding="10dp">
 
+        <Button
+            android:id="@+id/btn_his_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="2dp"
+            android:layout_weight="1"
+            android:background="@color/colorFuncBtnBackground"
+            android:text="Back"
+            android:textColor="@color/colorFuncBtnText"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="10dp"
+        android:orientation="vertical">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:id="@+id/history_linear1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="right">
+
+                <View
+                    android:id="@+id/history_view1"
+                    android:layout_width="match_parent"
+                    android:layout_height="3dp"
+                    android:layout_marginBottom="2dp"
+                    android:background="@color/colorFuncBtnText"/>
+
+                <LinearLayout
+                    android:id="@+id/history_linear2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/history_date"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="날짜"
+                        android:textStyle="bold"
+                        android:textSize="15sp"
+                        android:textColor="@color/colorFuncBtnText"/>
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/history_process"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="1+2+3+4"
+                    android:autoSizeTextType="uniform"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/history_result"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="10"
+                    android:autoSizeTextType="uniform"
+                    android:textSize="20sp"
+                    android:textStyle="bold"/>
+
+                <View
+                    android:id="@+id/history_view2"
+                    android:layout_width="match_parent"
+                    android:layout_height="3dp"
+                    android:layout_marginTop="2dp"
+                    android:background="@color/colorFuncBtnText"/>
+
+            </LinearLayout>
+
+        </ScrollView>
+
+    </LinearLayout>
 </LinearLayout>
