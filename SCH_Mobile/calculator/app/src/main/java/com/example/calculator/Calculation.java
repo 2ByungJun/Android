@@ -1,7 +1,8 @@
 package com.example.calculator;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.Stack;
+import java.math.*;
 
 public class Calculation {
 
@@ -13,42 +14,43 @@ public class Calculation {
     public static String calPostfix(String input) {
 
         /***** toPostfix : 중위표기식 -> 후위표기식 *****/
-        ArrayList<String> postfix = toPostfix(input);
+        LinkedList<String> postfix = toPostfix(input);
 
         /***** Variable *****/
         Stack<String> stack = new Stack<>(); // Stack
-        double front, back; // 전, 후
+        BigDecimal bigFront, bigBack; // 전, 후
+        double front, back;
         String result; // return 값
 
         /***** 연산부 *****/
         for (int i = 0; i < postfix.size(); i++) {
             switch (postfix.get(i)) {
                 /*****************************************************************
-                 * Operator, % : 실수들간 비교
+                 * Operator(+, -, *, /), % : 실수들간 비교
                  *****************************************************************/
                 /***** + : "1 + 2" *****/
                 case "+":
-                    back = Double.parseDouble(stack.pop());
-                    front = Double.parseDouble(stack.pop());
-                    stack.push((front + back) + "");
+                    bigBack = new BigDecimal(Double.parseDouble(stack.pop()));
+                    bigFront = new BigDecimal(Double.parseDouble(stack.pop()));
+                    stack.push(bigBack.add(bigFront) + "");
                     break;
                 /***** - : "1 - 2" *****/
                 case "-":
-                    back = Double.parseDouble(stack.pop());
-                    front = Double.parseDouble(stack.pop());
-                    stack.push((front - back) + "");
+                    bigBack = new BigDecimal(Double.parseDouble(stack.pop()));
+                    bigFront = new BigDecimal(Double.parseDouble(stack.pop()));
+                    stack.push(bigFront.subtract(bigBack) + "");
                     break;
                 /***** * : "1 * 2" *****/
                 case "*":
-                    back = Double.parseDouble(stack.pop());
-                    front = Double.parseDouble(stack.pop());
-                    stack.push((front * back) + "");
+                    bigBack = new BigDecimal(Double.parseDouble(stack.pop()));
+                    bigFront = new BigDecimal(Double.parseDouble(stack.pop()));
+                    stack.push(bigFront.multiply(bigBack) + "");
                     break;
                 /***** / : "1 / 2" *****/
                 case "/":
-                    back = Double.parseDouble(stack.pop());
-                    front = Double.parseDouble(stack.pop());
-                    stack.push((front / back) + "");
+                    bigBack = new BigDecimal(Double.parseDouble(stack.pop()));
+                    bigFront = new BigDecimal((Double.parseDouble(stack.pop())));
+                    stack.push(bigFront.divide(bigBack, 50, BigDecimal.ROUND_UP) + "");
                     break;
                 /***** % : "1 % 2" *****/
                 case "%":
@@ -95,9 +97,9 @@ public class Calculation {
     /*****************************************************************
      * toPostfix : 중위표기법 -> 후위표기법 전환
      *****************************************************************/
-    private static ArrayList<String> toPostfix(String str) {
+    private static LinkedList<String> toPostfix(String str) {
         /***** Variable *****/
-        ArrayList<String> result = new ArrayList<>(); // List
+        LinkedList<String> result = new LinkedList<>(); // List
         String[] calcTarget = str.split(" ");  // 공백 split
         Stack<String> stack = new Stack<>();         // Stack
         String forPrint = ""; // 임시저장
@@ -145,7 +147,7 @@ public class Calculation {
             forPrint = stack.pop();
             result.add(forPrint);
         }
-        /***** ArrayList 형태의 후위표기식 *****/
+        /***** LinkedList 형태의 후위표기식 *****/
         return result;
     }
 

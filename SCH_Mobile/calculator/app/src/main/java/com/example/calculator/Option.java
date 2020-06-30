@@ -12,7 +12,6 @@ public class Option implements Serializable {
      *****************************************************************/
     public Option(){
     }
-
     public Option(String opDate, String opProcess, String opResult) {
         this.opDate = opDate;
         this.opProcess = opProcess;

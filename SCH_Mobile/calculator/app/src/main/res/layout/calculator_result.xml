@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="right"
-    android:padding="10dp"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="10dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -17,43 +16,40 @@
             android:id="@+id/btn_history"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_marginRight="2dp"
-            android:text="History"
-            android:textStyle="bold"
-            android:textColor="@color/colorFuncBtnText"
+            android:layout_weight="1"
             android:background="@color/colorFuncBtnBackground"
-            />
+            android:text="History"
+            android:textColor="@color/colorFuncBtnText"
+            android:textStyle="bold" />
 
         <Button
             android:id="@+id/btn_read"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_marginLeft="2dp"
-            android:text="FILE READ"
-            android:textStyle="bold"
-            android:textColor="@color/colorFuncBtnText"
+            android:layout_weight="1"
             android:background="@color/colorFuncBtnBackground"
-            />
+            android:text="FILE READ"
+            android:textColor="@color/colorFuncBtnText"
+            android:textStyle="bold" />
     </LinearLayout>
 
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="100dp">
+        android:layout_height="70dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-        <EditText
-            android:id="@+id/tv_process"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            />
+            <EditText
+                android:id="@+id/tv_process"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="20sp" />
 
         </LinearLayout>
     </ScrollView>
@@ -62,8 +58,7 @@
         android:id="@+id/tv_result"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="20sp"
         android:autoSizeTextType="uniform"
-        />
+        android:textSize="20sp" />
 
 </LinearLayout>

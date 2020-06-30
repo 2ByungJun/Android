@@ -5,42 +5,34 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.ScrollView;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
-import java.util.Collection;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.Queue;
 
 /*****************************************************************
  * 20154010 이병준 계산기 프로젝트
- * > 산술연산 : +, -, *, /, (, ) - stack, ArrayList
+ * > 산술연산 : +, -, *, /, (, ) - stack, LinkedList
  * > 나머지 : %
- * > 비트연산 : &, |, ^, ~ - stack, ArrayList
+ * > 비트연산 : &, |, ^, ~ - stack, LinkedList
  * > 입력받는 방식 : 버튼, 사용자 텍스트, 파일 입력
  * > 출력받는 방식 : 결과 Text, 파일 쓰기
- * > History (x)
+ * > History : LinkedList 로 구현
+ * > 50자리 계산 : x
  * > Game (x)
  *****************************************************************/
 public class MainActivity extends AppCompatActivity {
 
-    /***** First Check *****/
-    boolean isFirstInput = true;
+    /***** First Check Variable *****/
+    boolean isFirstInput = true; // 처음 오는 수, 연산인지 판별
 
     /***** Declaring Variable *****/
     Button btnAllClear, btnClear, btnBack;  // AC, C, BK
@@ -68,14 +60,13 @@ public class MainActivity extends AppCompatActivity {
 
     /***** Equal Variable *****/
     Button btnEqual;   // =
-    Calculation calculation = new Calculation();
+    Calculation calculation = new Calculation(); // Calculation.class
 
     /***** History *****/
     Button btnHistory; // Navigator - history.xml
-    Option option = new Option();
-    Queue<Option> q = new LinkedList<Option>();
-    Intent intent;
-    int equlCount=0;
+    Option option = new Option(); // Option.class
+    Intent intent;  // 페이지 간 값 전달을 위한 변수
+    LinkedList<Option> historyList = new LinkedList<>(); // History List
 
     /***** File Read*****/
     Button btnRead; // File Read
@@ -134,17 +125,14 @@ public class MainActivity extends AppCompatActivity {
         tvResult.setText("");    // 결과 TextView 초기화
 
         /*****************************************************************
-         * History Buttons on-Click
+         *          * History Buttons on-Click
          *****************************************************************/
         btnHistory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 /***** History 페이지 전환 ******/
                 intent = new Intent(getApplicationContext(), History.class);
-
-                intent.putExtra("size", equlCount);
-                intent.putExtra("history", q.poll());
-                intent.putExtra("history", q.poll());
+                intent.putExtra("history", historyList);
                 startActivity(intent);
             }
         });
@@ -497,15 +485,13 @@ public class MainActivity extends AppCompatActivity {
                 } else { // 괄호 에러
                     Toast.makeText(getApplicationContext(), "error : (, )", Toast.LENGTH_SHORT).show();
                 }
-                /***** History Setting ******/
+                /***** History LinkedList Setting ******/
                 option = new Option(
                         formatDate,
                         tvProcessor.getText().toString(),
                         tvResult.getText().toString()
                 );
-                q.add(option);
-                equlCount++;
-                System.out.println(q.toString());
+                historyList.add(option);
             }
         });
     }
