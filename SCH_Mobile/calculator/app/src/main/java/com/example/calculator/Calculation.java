@@ -30,26 +30,26 @@ public class Calculation {
                  *****************************************************************/
                 /***** + : "1 + 2" *****/
                 case "+":
-                    bigBack = new BigDecimal(Double.parseDouble(stack.pop()));
-                    bigFront = new BigDecimal(Double.parseDouble(stack.pop()));
+                    bigBack = BigDecimal.valueOf(Double.parseDouble(stack.pop()));
+                    bigFront = BigDecimal.valueOf(Double.parseDouble(stack.pop()));
                     stack.push(bigBack.add(bigFront) + "");
                     break;
                 /***** - : "1 - 2" *****/
                 case "-":
-                    bigBack = new BigDecimal(Double.parseDouble(stack.pop()));
-                    bigFront = new BigDecimal(Double.parseDouble(stack.pop()));
+                    bigBack = BigDecimal.valueOf(Double.parseDouble(stack.pop()));
+                    bigFront = BigDecimal.valueOf(Double.parseDouble(stack.pop()));
                     stack.push(bigFront.subtract(bigBack) + "");
                     break;
                 /***** * : "1 * 2" *****/
                 case "*":
-                    bigBack = new BigDecimal(Double.parseDouble(stack.pop()));
-                    bigFront = new BigDecimal(Double.parseDouble(stack.pop()));
+                    bigBack = BigDecimal.valueOf(Double.parseDouble(stack.pop()));
+                    bigFront = BigDecimal.valueOf(Double.parseDouble(stack.pop()));
                     stack.push(bigFront.multiply(bigBack) + "");
                     break;
                 /***** / : "1 / 2" *****/
                 case "/":
-                    bigBack = new BigDecimal(Double.parseDouble(stack.pop()));
-                    bigFront = new BigDecimal((Double.parseDouble(stack.pop())));
+                    bigBack = BigDecimal.valueOf(Double.parseDouble(stack.pop()));
+                    bigFront = BigDecimal.valueOf((Double.parseDouble(stack.pop())));
                     stack.push(bigFront.divide(bigBack, 50, BigDecimal.ROUND_UP) + "");
                     break;
                 /***** % : "1 % 2" *****/
